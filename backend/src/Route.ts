@@ -20,12 +20,11 @@ const Router = express.Router();
 
 Router.route("/login").post(Login);
 Router.route("/register").post(Register);
+Router.route("/vechile").get(getVechile);
 Router.use(validate);
 Router.route("/vechile/add").post(upload.single("file"), addVechile);
 Router.route("/isloggedin").get(check);
 Router.route("/user:id").patch(updateUser);
-
 Router.route("/vechile:id").delete(deleteVechile);
-Router.route("/vechile").get(getVechile);
 
 export default Router;

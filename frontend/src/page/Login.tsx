@@ -8,8 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { context } from "../Contexxt";
+import { useState, useContext } from "react";
 const Login = () => {
+  const value = useContext(context);
   const {
     register,
     handleSubmit,
@@ -34,6 +36,7 @@ const Login = () => {
         { withCredentials: true }
       );
       console.log(res.data);
+      value?.setC(!value.change);
       toast.success("loggedIn successfully navigating to home page!");
       setL(false);
       navigate("/");

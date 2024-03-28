@@ -43,9 +43,9 @@ const Navbar = ({ title, setS }: any) => {
       </div>
       <div className="flex-1 flex gap-3 justify-end items-center">
         <h1>
-          <a href="">Docs</a>
+          <a href="/">Docs</a>
         </h1>
-        <Link to="/vechile/add">Add</Link>
+        {value?.data.isloggedIn && <Link to="/vechile/add">Add</Link>}
         <div className="flex ">
           {value?.data.isloggedIn ? (
             <Menubar>

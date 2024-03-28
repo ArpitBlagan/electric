@@ -15,6 +15,8 @@ interface con {
 
 interface val {
   data: con;
+  setC: Dispatch<SetStateAction<boolean>>;
+  change: boolean;
   setD: Dispatch<
     SetStateAction<{ name: string; email: string; isloggedIn: boolean }>
   >;
@@ -22,6 +24,7 @@ interface val {
 
 export const context = createContext<null | val>(null);
 const Contexxt: React.FC<any> = ({ children }) => {
+  const [change, setC] = useState(false);
   const [data, setD] = useState({ name: "", email: "", isloggedIn: false });
   useEffect(() => {
     const check = async () => {
@@ -37,8 +40,12 @@ const Contexxt: React.FC<any> = ({ children }) => {
       }
     };
     check();
-  }, []);
-  return <context.Provider value={{ data, setD }}>{children}</context.Provider>;
+  }, [change]);
+  return (
+    <context.Provider value={{ data, setD, setC, change }}>
+      {children}
+    </context.Provider>
+  );
 };
 
 export default Contexxt;

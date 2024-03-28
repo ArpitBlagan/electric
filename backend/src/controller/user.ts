@@ -35,7 +35,7 @@ export const Login = async (req: Request, res: Response) => {
           secure: true,
           httpOnly: true,
         });
-        return res.status(200).json({ messaeg: "successfully loggedIn!" });
+        return res.status(200).json(user);
       } else {
         throw new Error("invalid password");
       }
