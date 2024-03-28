@@ -30,7 +30,7 @@ const Regsiter = () => {
         password: data.password,
       };
       const res = await axios.post(
-        "http://localhost:4000/api/ele/register",
+        "https://electric-tay5.onrender.com/api/ele/register",
         body,
         { withCredentials: true }
       );

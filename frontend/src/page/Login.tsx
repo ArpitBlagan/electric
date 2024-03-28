@@ -29,7 +29,7 @@ const Login = () => {
         password: data.password,
       };
       const res = await axios.post(
-        "http://localhost:4000/api/ele/login",
+        "https://electric-tay5.onrender.com/api/ele/login",
         body,
         { withCredentials: true }
       );

@@ -12,26 +12,25 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import DatePicker from "@/components/DatePicker";
 import Table from "@/components/Table";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 const report = ["Total Miles Driven", "Cost Analysis", "Energy Consumption"];
 const frequency = ["Daily", "Weekly", "Monthly", "Time Frame"];
 const Report = () => {
-  const [rep, setR] = useState("");
-  const [fre, setF] = useState("");
   const [loading, setL] = useState(false);
   const [data, setD] = useState<any[] | null>(null);
-  const [change, setC] = useState(false);
   const [from, setFrom] = useState<Date>();
   const [to, setTo] = useState<Date>();
-  const ref = useRef();
 
   useEffect(() => {
     const getData = async () => {
       setL(true);
       try {
-        const res = await axios.get("http://localhost:4000/api/ele/vechile", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://electric-tay5.onrender.com/api/ele/vechile",
+          {
+            withCredentials: true,
+          }
+        );
         console.log(res.data);
         setD(res.data);
         setL(false);
@@ -73,7 +72,7 @@ const Report = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Frequency</SelectLabel>
-              {report.map((ele, index) => {
+              {frequency.map((ele, index) => {
                 return (
                   <SelectItem key={index} value={ele}>
                     {ele}

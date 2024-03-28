@@ -27,7 +27,7 @@ const Contexxt: React.FC<any> = ({ children }) => {
     const check = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4000/api/ele/isloggedin",
+          "https://electric-tay5.onrender.com/api/ele/isloggedin",
           { withCredentials: true }
         );
         console.log("conetxt res", res.data);

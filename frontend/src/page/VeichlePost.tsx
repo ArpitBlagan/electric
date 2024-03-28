@@ -85,7 +85,7 @@ const VeichlePost = () => {
       formdata.append("energy_consumptions", data.energy_consumption_per_hour);
       formdata.append("total_miles_driven", data.total_miles_driven);
       const res = await axios.post(
-        "http://localhost:4000/api/ele/vechile/add",
+        "https://electric-tay5.onrender.com/api/ele/vechile/add",
         formdata,
         {
           headers: {
