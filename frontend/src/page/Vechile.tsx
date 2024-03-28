@@ -10,7 +10,7 @@ const Vechile = () => {
       setL(true);
       try {
         const res = await axios.get(
-          "https://electric-tay5.onrender.com/api/ele/vechile",
+          "https://electric-tay5.onrender.com/api/ele/vechileall",
           {
             withCredentials: true,
           }

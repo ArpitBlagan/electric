@@ -18,15 +18,17 @@ const frequency = ["Daily", "Weekly", "Monthly", "Time Frame"];
 const Report = () => {
   const [loading, setL] = useState(false);
   const [data, setD] = useState<any[] | null>(null);
-  const [from, setFrom] = useState<Date>();
-  const [to, setTo] = useState<Date>();
-
+  const [from, setFrom] = useState<Date>(new Date("2000-03-23"));
+  const [to, setTo] = useState<Date>(new Date());
+  const [change, setC] = useState(false);
+  const [seleR, setSr] = useState("");
+  const [seleF, setFr] = useState("");
   useEffect(() => {
     const getData = async () => {
       setL(true);
       try {
         const res = await axios.get(
-          "https://electric-tay5.onrender.com/api/ele/vechile",
+          `https://electric-tay5.onrender.com/api/ele/vechile?from=${from.toLocaleString()}&to=${to.toLocaleString()}`,
           {
             withCredentials: true,
           }
@@ -40,13 +42,14 @@ const Report = () => {
       }
     };
     getData();
-  }, []);
+  }, [change]);
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-2 items-center">
         <Select
-          onOpenChange={(value) => {
-            console.log(value);
+          value={seleR}
+          onValueChange={(e: any) => {
+            setSr(e.target.value);
           }}
         >
           <SelectTrigger className="w-[180px]">
@@ -65,7 +68,12 @@ const Report = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Select>
+        <Select
+          value={seleF}
+          onValueChange={(e: any) => {
+            setFr(e.target.value);
+          }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Frequency" />
           </SelectTrigger>
@@ -85,7 +93,15 @@ const Report = () => {
         <div className="flex-1 flex items-center justify-end gap-2">
           <DatePicker title="From" date={from} setDate={setFrom} />
           <DatePicker title="To" date={to} setDate={setTo} />
-          <Button variant={"destructive"}>Generate Report</Button>
+          <Button
+            variant={"destructive"}
+            onClick={(e) => {
+              e.preventDefault();
+              setC(!change);
+            }}
+          >
+            Generate Report
+          </Button>
         </div>
       </div>
       <div>{loading && <h1 className="text-center">Fetching Data</h1>}</div>

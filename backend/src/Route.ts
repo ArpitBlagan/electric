@@ -6,7 +6,12 @@ import {
   logoutUser,
   updateUser,
 } from "./controller/user";
-import { addVechile, deleteVechile, getVechile } from "./controller/Vechile";
+import {
+  addVechile,
+  deleteVechile,
+  getVechile,
+  getVechilee,
+} from "./controller/Vechile";
 import { validate } from "./controller/validate";
 const multer = require("multer");
 
@@ -27,6 +32,7 @@ const Router = express.Router();
 Router.route("/login").post(Login);
 Router.route("/register").post(Register);
 Router.route("/vechile").get(getVechile);
+Router.route("/vechileall").get(getVechilee);
 Router.route("/user").get(logoutUser);
 Router.use(validate);
 Router.route("/vechile/add").post(upload.single("file"), addVechile);

@@ -23,6 +23,7 @@ const Router = express_1.default.Router();
 Router.route("/login").post(user_1.Login);
 Router.route("/register").post(user_1.Register);
 Router.route("/vechile").get(Vechile_1.getVechile);
+Router.route("/vechileall").get(Vechile_1.getVechilee);
 Router.route("/user").get(user_1.logoutUser);
 Router.use(validate_1.validate);
 Router.route("/vechile/add").post(upload.single("file"), Vechile_1.addVechile);

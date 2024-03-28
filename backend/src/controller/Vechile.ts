@@ -19,28 +19,66 @@ export const deleteVechile = async (req: Request, res: Response) => {
     res.status(500).json({ message: "internal server error" });
   }
 };
-export const getVechile = async (req: Request, res: Response) => {
-  const { from, to } = req.query;
-  let ff = new Date("2000-01-01");
-  let tt = new Date(Date.now());
-  if (from) {
-    ff = new Date(from as string);
-  }
-  if (to) {
-    tt = new Date(to as string);
-  }
-  console.log(ff, tt);
-  const limit = 10;
-  const { take, page } = req.query;
-  const takee = parseInt(take as string) | 10;
+export const getVechilee = async (req: Request, res: Response) => {
   try {
     const vechile = await prisma.vechile.findMany({
-      take: takee,
-      skip: 0,
+      include: {
+        user: true,
+      },
+    });
+    console.log(vechile);
+    res.status(200).json(vechile);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error" });
+  }
+};
+function convertToISO8601(dateString: any) {
+  try {
+    // Split date and time parts
+    const [datePart, timePart] = dateString.split(", ");
+    // Split month, day, and year
+    const [month, day, year] = datePart.split("/");
+    // Split hours, minutes, and seconds
+    const [time, meridiem] = timePart.split(" ");
+    const [hours, minutes, seconds] = time.split(":");
+
+    // Convert hours to 24-hour format
+    let adjustedHours = parseInt(hours, 10);
+    if (meridiem === "PM" && adjustedHours !== 12) {
+      adjustedHours += 12;
+    } else if (meridiem === "AM" && adjustedHours === 12) {
+      adjustedHours = 0;
+    }
+
+    // Create a new Date object with the parsed parts
+    const dateObject = new Date(
+      Date.UTC(year, month - 1, day, adjustedHours, minutes, seconds)
+    );
+
+    // Check if the dateObject is a valid date
+    if (isNaN(dateObject.getTime())) {
+      throw new Error("Invalid date");
+    }
+
+    // Return the ISO 8601 formatted date string
+    return dateObject.toISOString();
+  } catch (error) {
+    console.error("Error converting to ISO 8601:", error);
+    return null;
+  }
+}
+export const getVechile = async (req: Request, res: Response) => {
+  const { from, to } = req.query;
+  console.log(from, to);
+  try {
+    const vechile = await prisma.vechile.findMany({
       where: {
         date_of_purchase: {
-          gte: new Date(ff),
-          lte: new Date(tt),
+          //@ts-ignore
+          gte: convertToISO8601(from),
+          //@ts-ignore
+          lte: convertToISO8601(to),
         },
       },
       include: {
@@ -76,7 +114,7 @@ export const addVechile = async (req: Request, res: Response) => {
         type: req.body.type,
         image: imageUrl,
         total_miles_driven: req.body.total_miles_driven,
-        date_of_purchase: new Date(req.body.date),
+        date_of_purchase: new Date(),
         license_plate: req.body.license_plate,
         energy_consumption_per_hour: req.body.energy_consumptions,
         cost: req.body.cost,
