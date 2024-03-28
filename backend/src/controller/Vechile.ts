@@ -20,6 +20,16 @@ export const deleteVechile = async (req: Request, res: Response) => {
   }
 };
 export const getVechile = async (req: Request, res: Response) => {
+  const { from, to } = req.query;
+  let ff = new Date("2000-01-01");
+  let tt = new Date(Date.now());
+  if (from) {
+    ff = new Date(from as string);
+  }
+  if (to) {
+    tt = new Date(to as string);
+  }
+  console.log(ff, tt);
   const limit = 10;
   const { take, page } = req.query;
   const takee = parseInt(take as string) | 10;
@@ -27,10 +37,17 @@ export const getVechile = async (req: Request, res: Response) => {
     const vechile = await prisma.vechile.findMany({
       take: takee,
       skip: 0,
+      where: {
+        date_of_purchase: {
+          gte: new Date(ff),
+          lte: new Date(tt),
+        },
+      },
       include: {
         user: true,
       },
     });
+    console.log(vechile);
     res.status(200).json(vechile);
   } catch (err) {
     console.log(err);
@@ -59,7 +76,7 @@ export const addVechile = async (req: Request, res: Response) => {
         type: req.body.type,
         image: imageUrl,
         total_miles_driven: req.body.total_miles_driven,
-        date_of_purchase: req.body.date,
+        date_of_purchase: new Date(req.body.date),
         license_plate: req.body.license_plate,
         energy_consumption_per_hour: req.body.energy_consumptions,
         cost: req.body.cost,

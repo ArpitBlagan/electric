@@ -46,7 +46,7 @@ const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     secure: true,
                     httpOnly: true,
                 });
-                return res.status(200).json({ messaeg: "successfully loggedIn!" });
+                return res.status(200).json(user);
             }
             else {
                 throw new Error("invalid password");
@@ -79,6 +79,11 @@ const check = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.check = check;
 const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("jwt");
+    res.cookie("jwt", "", {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+    });
     res.status(202).json({ message: "done" });
 });
 exports.logoutUser = logoutUser;

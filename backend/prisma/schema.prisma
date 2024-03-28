@@ -26,7 +26,7 @@ model Vechile{
   model String
   image String
   total_miles_driven String
-  date_of_purchase String
+  date_of_purchase DateTime
   type String
   license_plate String
   cost String

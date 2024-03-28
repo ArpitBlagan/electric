@@ -36,6 +36,8 @@ const deleteVechile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.deleteVechile = deleteVechile;
 const getVechile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { from, to, freq, report } = req.query;
+    console.log(from, to, freq, report);
     const limit = 10;
     const { take, page } = req.query;
     const takee = parseInt(take) | 10;
@@ -43,10 +45,17 @@ const getVechile = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const vechile = yield index_1.prisma.vechile.findMany({
             take: takee,
             skip: 0,
+            where: {
+                date_of_purchase: {
+                    gte: from,
+                    lte: to,
+                },
+            },
             include: {
                 user: true,
             },
         });
+        console.log(vechile);
         res.status(200).json(vechile);
     }
     catch (err) {
