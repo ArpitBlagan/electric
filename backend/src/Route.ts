@@ -1,5 +1,11 @@
 import express from "express";
-import { Login, Register, check, updateUser } from "./controller/user";
+import {
+  Login,
+  Register,
+  check,
+  logoutUser,
+  updateUser,
+} from "./controller/user";
 import { addVechile, deleteVechile, getVechile } from "./controller/Vechile";
 import { validate } from "./controller/validate";
 const multer = require("multer");
@@ -21,6 +27,7 @@ const Router = express.Router();
 Router.route("/login").post(Login);
 Router.route("/register").post(Register);
 Router.route("/vechile").get(getVechile);
+Router.route("/user").get(logoutUser);
 Router.use(validate);
 Router.route("/vechile/add").post(upload.single("file"), addVechile);
 Router.route("/isloggedin").get(check);

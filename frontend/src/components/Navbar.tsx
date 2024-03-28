@@ -67,7 +67,7 @@ const Navbar = ({ title, setS }: any) => {
                         e.preventDefault();
                         try {
                           const res = await axios.get(
-                            "https://electric-tay5.onrender.com/api/ele/logout",
+                            "https://electric-tay5.onrender.com/api/ele/user/logout",
                             { withCredentials: true }
                           );
                           console.log("logged out", res.data);
